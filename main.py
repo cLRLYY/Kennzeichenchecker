@@ -620,24 +620,19 @@ def main() -> None:
         logging.error("Start fehlgeschlagen: %s", exc)
         sys.exit(1)
 
-    interval_minutes = int(config["check_interval_minutes"])
-    logging.info("Kennzeichenwächter gestartet. Intervall: %s Minuten", interval_minutes)
+    logging.info("Kennzeichenwächter gestartet. Einzelner Prüfzyklus für GitHub Actions.")
 
-    while True:
-        try:
-            state = run_cycle(config, state)
-        except Exception as exc:
-            logging.exception("Unerwarteter Fehler im Prüfzyklus: %s", exc)
+    try:
+        run_cycle(config, state)
+    except Exception as exc:
+        logging.exception("Unerwarteter Fehler im Prüfzyklus: %s", exc)
 
-            if "Executable doesn't exist" in str(exc):
-                logging.error(
-                    "Playwright-Browser fehlen. Bitte ausführen: python -m playwright install chromium"
-                )
-                sys.exit(1)
+        if "Executable doesn't exist" in str(exc):
+            logging.error(
+                "Playwright-Browser fehlen. Bitte ausführen: python -m playwright install chromium"
+            )
 
-        sleep_seconds = interval_minutes * 60
-        logging.info("Warte %s Sekunden bis zum nächsten Zyklus.", sleep_seconds)
-        time.sleep(sleep_seconds)
+        sys.exit(1)
 
 
 if __name__ == "__main__":
