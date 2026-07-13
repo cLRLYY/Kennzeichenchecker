@@ -1,4 +1,5 @@
 import json
+import os
 import logging
 import random
 import re
@@ -69,12 +70,27 @@ def load_config(path: Path) -> dict[str, Any]:
             raise ValueError(f"Pflichtfeld fehlt in config.yaml: {key}")
 
     telegram = config.get("telegram", {})
-    telegram["bot_token"] = str(telegram.get("bot_token", "")).strip()
-    telegram["chat_id"] = str(telegram.get("chat_id", "")).strip()
+
+    bot_token = str(
+        telegram.get("bot_token")
+        or os.getenv("TELEGRAM_BOT_TOKEN", "")
+    ).strip()
+
+    chat_id = str(
+        telegram.get("chat_id")
+        or os.getenv("TELEGRAM_CHAT_ID", "")
+    ).strip()
+
+    telegram["bot_token"] = bot_token
+    telegram["chat_id"] = chat_id
     config["telegram"] = telegram
 
     if not telegram["bot_token"] or not telegram["chat_id"]:
-        raise ValueError("telegram.bot_token oder telegram.chat_id fehlt in config.yaml.")
+        raise ValueError(
+            "Telegram-Daten fehlen. Bitte telegram.bot_token / telegram.chat_id "
+            "in config.yaml oder die Umgebungsvariablen "
+            "TELEGRAM_BOT_TOKEN / TELEGRAM_CHAT_ID setzen."
+        )
 
     plates = config.get("license_plates", [])
     if not plates or not isinstance(plates, list):
