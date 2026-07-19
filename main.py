@@ -1,6 +1,6 @@
 import json
-import os
 import logging
+import os
 import random
 import re
 import sys
@@ -22,9 +22,6 @@ from playwright.sync_api import (
 BASE_DIR = Path(__file__).resolve().parent
 
 BASE_URL = "https://wkz.landkreis-peine.de/wkz/?renderer=responsive"
-APL_URL = "https://www.apl.de/neuwagen/bmw/m2-coup-/basis/angebot/1748-133"
-APL_LIST_PRICE = 85960.0
-
 CONFIG_FILE = BASE_DIR / "config.yaml"
 STATE_FILE = BASE_DIR / "state.json"
 LOG_FILE = BASE_DIR / "logs.txt"
@@ -167,46 +164,8 @@ def send_telegram_message(bot_token: str, chat_id: str, message: str, timeout: i
     response.raise_for_status()
 
 
-def parse_euro_amount(value: str) -> float:
-    cleaned = value.replace("€", "").replace(".", "").replace(",", ".")
-    cleaned = re.sub(r"[^\d.]", "", cleaned)
-    if not cleaned:
-        raise ValueError(f"Kein Euro-Betrag erkennbar: {value!r}")
-    return float(cleaned)
-
-
-def format_euro(value: float) -> str:
-    formatted = f"{value:,.2f}"
-    formatted = formatted.replace(",", "X").replace(".", ",").replace("X", ".")
-    return f"{formatted} €"
-
-
-def build_summary_message(
-    results: list[dict[str, str]],
-    apl_data: dict[str, float] | None = None,
-) -> str:
+def build_summary_message(results: list[dict[str, str]]) -> str:
     lines = ["📋 Wunschkennzeichen-Prüfung abgeschlossen", ""]
-
-    if apl_data:
-        lines.extend(
-            [
-                "🚗 APL-Angebot BMW M2 Coupé",
-                f"Listenpreis: {format_euro(apl_data['list_price'])}",
-                f"Ihr Endpreis: {format_euro(apl_data['end_price'])}",
-                f"Ersparnis: {apl_data['savings_percent']:.2f} %",
-                "",
-            ]
-        )
-    else:
-        lines.extend(
-            [
-                "🚗 APL-Angebot BMW M2 Coupé",
-                "Listenpreis: nicht verfügbar",
-                "Ihr Endpreis: nicht verfügbar",
-                "Ersparnis: nicht verfügbar",
-                "",
-            ]
-        )
 
     for item in results:
         pretty_plate = item["pretty_plate"]
@@ -363,118 +322,6 @@ def submit_plate_check(page: Page) -> None:
     random_delay(1.0, 2.4)
 
 
-def fetch_apl_offer_data(context: BrowserContext) -> dict[str, float]:
-    page = open_fresh_page(context)
-
-    try:
-        logging.info("Prüfe APL-Angebot: %s", APL_URL)
-
-        page.goto(APL_URL, wait_until="domcontentloaded")
-        page.wait_for_load_state("networkidle")
-        random_delay(1.0, 2.0)
-
-        consent_selectors = [
-            "button:has-text('Akzeptieren')",
-            "button:has-text('Zustimmen')",
-            "button:has-text('Alle akzeptieren')",
-            "button:has-text('Einverstanden')",
-            "#CybotCookiebotDialogBodyLevelButtonLevelOptinAllowAll",
-        ]
-        click_first_available(page, consent_selectors, timeout_ms=3000)
-
-        price_input = page.locator("#txtEingabePreis")
-        price_input.wait_for(state="visible", timeout=15000)
-
-        price_input.click()
-        random_delay(0.2, 0.4)
-        price_input.press("Control+A")
-        price_input.press("Delete")
-        random_delay(0.2, 0.4)
-        price_input.type("85960", delay=100)
-
-        page.evaluate(
-            """
-            () => {
-                document.querySelector('#kdEingabePreis').value = '85960';
-            }
-            """
-        )
-
-        price_input.dispatch_event("input")
-        price_input.dispatch_event("change")
-        price_input.press("Tab")
-        random_delay(0.8, 1.5)
-
-        tarif_caption = page.locator(".kTarif .caption.entry span")
-        try:
-            caption_text = tarif_caption.inner_text(timeout=3000).strip().lower()
-        except Exception:
-            caption_text = ""
-
-        if "privatkunden" not in caption_text:
-            page.locator(".kTarif").click()
-            random_delay(0.5, 1.0)
-
-            privat_option = page.locator("text=für Privatkunden").last
-            privat_option.wait_for(state="visible", timeout=10000)
-            privat_option.click()
-            random_delay(1.0, 2.0)
-
-        page.wait_for_function(
-            """() => {
-                const hidden = document.querySelector('#kdEingabePreis');
-                return hidden && hidden.value === '85960';
-            }""",
-            timeout=10000,
-        )
-
-        page.wait_for_function(
-            """() => {
-                const lp = document.querySelector('#kdListenpreis');
-                const ep = document.querySelector('#kdEndpreis');
-                if (!lp || !ep) return false;
-                const lpText = (lp.textContent || '').trim();
-                const epText = (ep.textContent || '').trim();
-                return /€/.test(lpText) && /€/.test(epText) && !lpText.includes('wait.gif') && !epText.includes('wait.gif');
-            }""",
-            timeout=15000,
-        )
-
-        listenpreis_text = page.locator("#kdListenpreis").inner_text().strip()
-        rabatt_text = page.locator("#kdRabatt").inner_text().strip()
-        kaufpreis_text = page.locator("#kdKaufpreis").inner_text().strip()
-        ufb_text = page.locator("#kdUFB").inner_text().strip()
-        endpreis_text = page.locator("#kdEndpreis").inner_text().strip()
-
-        logging.info(
-            "APL DOM-Werte | Listenpreis=%s | Rabatt=%s | APL-Preis=%s | UFB=%s | Endpreis=%s",
-            listenpreis_text,
-            rabatt_text,
-            kaufpreis_text,
-            ufb_text,
-            endpreis_text,
-        )
-
-        listen_price = parse_euro_amount(listenpreis_text)
-        end_price = parse_euro_amount(endpreis_text)
-        savings_percent = ((listen_price - end_price) / listen_price) * 100
-
-        logging.info(
-            "APL erkannt: Ihr Endpreis=%s | Ersparnis=%.2f%%",
-            format_euro(end_price),
-            savings_percent,
-        )
-
-        return {
-            "list_price": listen_price,
-            "end_price": end_price,
-            "savings_percent": savings_percent,
-        }
-
-    finally:
-        page.close()
-
-
 def check_plate_once(context: BrowserContext, raw_plate: str) -> str:
     plate = normalize_plate(raw_plate)
     page = open_fresh_page(context)
@@ -550,20 +397,12 @@ def build_context(browser: Browser) -> BrowserContext:
 def run_cycle(config: dict[str, Any], state: dict[str, str]) -> dict[str, str]:
     updated_state = dict(state)
     cycle_results: list[dict[str, str]] = []
-    apl_data: dict[str, float] | None = None
 
     with sync_playwright() as playwright:
         browser = build_browser(playwright)
         context = build_context(browser)
 
         try:
-            try:
-                apl_data = fetch_apl_offer_data(context)
-            except Exception as exc:
-                logging.error("APL-Angebot konnte nicht gelesen werden: %s", exc)
-
-            random_delay(2.0, 4.0)
-
             for raw_plate in config["license_plates"]:
                 plate = normalize_plate(raw_plate)
                 compact = plate["compact"]
@@ -599,7 +438,7 @@ def run_cycle(config: dict[str, Any], state: dict[str, str]) -> dict[str, str]:
             context.close()
             browser.close()
 
-    summary_message = build_summary_message(cycle_results, apl_data=apl_data)
+    summary_message = build_summary_message(cycle_results)
     send_telegram_message(
         bot_token=config["telegram"]["bot_token"],
         chat_id=config["telegram"]["chat_id"],
@@ -610,20 +449,17 @@ def run_cycle(config: dict[str, Any], state: dict[str, str]) -> dict[str, str]:
     return updated_state
 
 
-def main() -> None:
-    setup_logging()
-
+def run_once() -> int:
     try:
         config = load_config(CONFIG_FILE)
         state = load_state(STATE_FILE)
     except Exception as exc:
         logging.error("Start fehlgeschlagen: %s", exc)
-        sys.exit(1)
-
-    logging.info("Kennzeichenwächter gestartet. Einzelner Prüfzyklus für GitHub Actions.")
+        return 1
 
     try:
         run_cycle(config, state)
+        return 0
     except Exception as exc:
         logging.exception("Unerwarteter Fehler im Prüfzyklus: %s", exc)
 
@@ -632,7 +468,35 @@ def main() -> None:
                 "Playwright-Browser fehlen. Bitte ausführen: python -m playwright install chromium"
             )
 
+        return 1
+
+
+def main() -> None:
+    setup_logging()
+
+    github_actions = os.getenv("GITHUB_ACTIONS", "").lower() == "true"
+
+    if github_actions:
+        logging.info("Kennzeichenwächter gestartet im GitHub-Actions-Modus.")
+        sys.exit(run_once())
+
+    try:
+        config = load_config(CONFIG_FILE)
+    except Exception as exc:
+        logging.error("Start fehlgeschlagen: %s", exc)
         sys.exit(1)
+
+    interval_minutes = int(config["check_interval_minutes"])
+    logging.info("Kennzeichenwächter gestartet. Intervall: %s Minuten", interval_minutes)
+
+    while True:
+        exit_code = run_once()
+        if exit_code != 0:
+            logging.error("Prüfzyklus mit Fehler beendet.")
+
+        sleep_seconds = interval_minutes * 60
+        logging.info("Warte %s Sekunden bis zum nächsten Zyklus.", sleep_seconds)
+        time.sleep(sleep_seconds)
 
 
 if __name__ == "__main__":
