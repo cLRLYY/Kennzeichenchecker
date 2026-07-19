@@ -1,0 +1,29 @@
+2026-07-19 14:45:38,715 | INFO | Logging initialisiert. Logdatei: /home/runner/work/Kennzeichenchecker/Kennzeichenchecker/logs.txt
+2026-07-19 14:45:38,715 | INFO | Kennzeichenwächter gestartet im GitHub-Actions-Modus.
+2026-07-19 14:45:39,131 | INFO | Prüfe Kennzeichen: PE G 87
+2026-07-19 14:45:49,345 | INFO | Erkanntes Ergebnis für PE G 87: unavailable
+2026-07-19 14:45:52,614 | INFO | Prüfe Kennzeichen: PE S 58
+2026-07-19 14:46:01,293 | INFO | Erkanntes Ergebnis für PE S 58: unavailable
+2026-07-19 14:46:04,678 | INFO | Prüfe Kennzeichen: PE XM 2
+2026-07-19 14:46:14,031 | INFO | Erkanntes Ergebnis für PE XM 2: unavailable
+2026-07-19 14:46:16,663 | INFO | Prüfe Kennzeichen: PE IM 2
+2026-07-19 14:46:25,011 | INFO | Erkanntes Ergebnis für PE IM 2: unavailable
+2026-07-19 14:46:29,613 | INFO | Prüfe Kennzeichen: PE MR 2
+2026-07-19 14:46:37,670 | INFO | Erkanntes Ergebnis für PE MR 2: unavailable
+2026-07-19 14:46:40,806 | INFO | Prüfe Kennzeichen: PE MI 2
+2026-07-19 14:46:50,576 | INFO | Erkanntes Ergebnis für PE MI 2: unavailable
+2026-07-19 14:46:54,249 | INFO | Prüfe Kennzeichen: PE MY 2
+2026-07-19 14:47:03,383 | INFO | Erkanntes Ergebnis für PE MY 2: unavailable
+2026-07-19 14:47:06,369 | INFO | Prüfe Kennzeichen: PE BM 2
+2026-07-19 14:47:16,423 | INFO | Erkanntes Ergebnis für PE BM 2: unavailable
+2026-07-19 14:47:21,151 | INFO | Prüfe Kennzeichen: PE GM 2
+2026-07-19 14:47:31,025 | INFO | Erkanntes Ergebnis für PE GM 2: unavailable
+2026-07-19 14:47:33,356 | INFO | Prüfe Kennzeichen: PE M 87
+2026-07-19 14:47:42,833 | INFO | Erkanntes Ergebnis für PE M 87: unavailable
+2026-07-19 14:47:47,786 | INFO | Prüfe Kennzeichen: PE XG 87
+2026-07-19 14:47:56,980 | INFO | Erkanntes Ergebnis für PE XG 87: unavailable
+2026-07-19 14:47:59,613 | INFO | Prüfe Kennzeichen: PE ?M 2
+2026-07-19 14:48:09,636 | INFO | Erkanntes Ergebnis für PE ?M 2: unavailable
+2026-07-19 14:48:13,224 | INFO | Prüfe Kennzeichen: PE M? 2
+2026-07-19 14:48:21,859 | INFO | Erkanntes Ergebnis für PE M? 2: unavailable
+2026-07-19 14:48:25,613 | INFO | Zusammenfassende Telegram-Benachrichtigung gesendet.
