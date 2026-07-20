@@ -164,12 +164,13 @@ def send_telegram_message(bot_token: str, chat_id: str, message: str, timeout: i
     response.raise_for_status()
 
 
-def build_summary_message(results: list[dict[str, str]]) -> str:
+def build_summary_message(results: list[dict[str, Any]]) -> str:
     lines = ["📋 Wunschkennzeichen-Prüfung abgeschlossen", ""]
 
     for item in results:
         pretty_plate = item["pretty_plate"]
         status = item["status"]
+        matches = item.get("matches", [])
 
         if status == "available":
             icon = "✅"
@@ -181,7 +182,10 @@ def build_summary_message(results: list[dict[str, str]]) -> str:
             icon = "❓"
             text = "unbekannt / Fehler"
 
-        lines.append(f"{icon} {pretty_plate} — {text}")
+        if status == "available" and matches:
+            lines.append(f"{icon} {pretty_plate} — {text}: {', '.join(matches)}")
+        else:
+            lines.append(f"{icon} {pretty_plate} — {text}")
 
     lines.extend(
         [
@@ -248,6 +252,87 @@ def infer_status_from_text(text: str) -> str:
             return "available"
 
     return "unknown"
+
+
+def normalize_found_plate(text: str) -> str | None:
+    cleaned = " ".join(text.replace("\xa0", " ").replace("-", " - ").split())
+    match = re.search(r"PE\s*-\s*([A-Z]{1,2})\s*([0-9]{1,4})", cleaned)
+    if not match:
+        return None
+
+    letters, numbers = match.groups()
+    return f"PE {letters} {numbers}"
+
+
+def extract_available_options(page: Page) -> list[str]:
+    candidates: list[str] = []
+
+    select_locator = page.locator("#wkzresultlist_wkz")
+
+    try:
+        if select_locator.count() > 0:
+            options = select_locator.evaluate(
+                """el => Array.from(el.options).map(opt => ({
+                    text: (opt.textContent || '').trim(),
+                    value: (opt.value || '').trim()
+                }))"""
+            )
+
+            for opt in options:
+                for raw in (opt.get("text", ""), opt.get("value", "")):
+                    plate = normalize_found_plate(raw)
+                    if plate:
+                        candidates.append(plate)
+    except Exception as exc:
+        logging.warning("Optionen aus #wkzresultlist_wkz konnten nicht direkt gelesen werden: %s", exc)
+
+    if not candidates:
+        fallback_selectors = [
+            "#wkzresultlist_wkz-button .ui-selectmenu-button-text",
+            ".ui-menu-item",
+            ".ui-menu-item-wrapper",
+            "[role='option']",
+            "select option",
+            "li",
+        ]
+
+        for selector in fallback_selectors:
+            locator = page.locator(selector)
+
+            try:
+                count = locator.count()
+            except Exception:
+                count = 0
+
+            for i in range(count):
+                try:
+                    text = locator.nth(i).inner_text().strip()
+                except Exception:
+                    continue
+
+                plate = normalize_found_plate(text)
+                if plate:
+                    candidates.append(plate)
+
+    if not candidates:
+        try:
+            body_text = extract_page_text(page)
+            for raw_match in re.findall(r"PE\s*-\s*[A-Z]{1,2}\s*[0-9]{1,4}", body_text):
+                plate = normalize_found_plate(raw_match)
+                if plate:
+                    candidates.append(plate)
+        except Exception:
+            pass
+
+    unique_candidates: list[str] = []
+    seen: set[str] = set()
+
+    for item in candidates:
+        if item not in seen:
+            seen.add(item)
+            unique_candidates.append(item)
+
+    return unique_candidates
 
 
 def open_fresh_page(context: BrowserContext) -> Page:
@@ -322,7 +407,7 @@ def submit_plate_check(page: Page) -> None:
     random_delay(1.0, 2.4)
 
 
-def check_plate_once(context: BrowserContext, raw_plate: str) -> str:
+def check_plate_once(context: BrowserContext, raw_plate: str) -> dict[str, Any]:
     plate = normalize_plate(raw_plate)
     page = open_fresh_page(context)
 
@@ -336,6 +421,28 @@ def check_plate_once(context: BrowserContext, raw_plate: str) -> str:
 
         text = extract_page_text(page)
         status = infer_status_from_text(text)
+        matches: list[str] = []
+
+        if status == "available" and "?" in raw_plate:
+            try:
+                matches = extract_available_options(page)
+                if matches:
+                    logging.info(
+                        "Gefundene Platzhalter-Treffer für %s: %s",
+                        plate["pretty"],
+                        ", ".join(matches),
+                    )
+                else:
+                    logging.info(
+                        "Für %s wurde zwar 'verfügbar' erkannt, aber keine Trefferliste ausgelesen.",
+                        plate["pretty"],
+                    )
+            except Exception as exc:
+                logging.warning(
+                    "Trefferliste für %s konnte nicht ausgelesen werden: %s",
+                    plate["pretty"],
+                    exc,
+                )
 
         if status == "unknown":
             html_snapshot = page.content()[:5000]
@@ -346,13 +453,17 @@ def check_plate_once(context: BrowserContext, raw_plate: str) -> str:
             logging.debug("HTML-Auszug für %s:\n%s", plate["pretty"], html_snapshot)
 
         logging.info("Erkanntes Ergebnis für %s: %s", plate["pretty"], status)
-        return status
+
+        return {
+            "status": status,
+            "matches": matches,
+        }
 
     finally:
         page.close()
 
 
-def check_plate_with_retry(context: BrowserContext, raw_plate: str, retries: int = 3) -> str:
+def check_plate_with_retry(context: BrowserContext, raw_plate: str, retries: int = 3) -> dict[str, Any]:
     last_error: Exception | None = None
 
     for attempt in range(1, retries + 1):
@@ -396,7 +507,7 @@ def build_context(browser: Browser) -> BrowserContext:
 
 def run_cycle(config: dict[str, Any], state: dict[str, str]) -> dict[str, str]:
     updated_state = dict(state)
-    cycle_results: list[dict[str, str]] = []
+    cycle_results: list[dict[str, Any]] = []
 
     with sync_playwright() as playwright:
         browser = build_browser(playwright)
@@ -409,7 +520,10 @@ def run_cycle(config: dict[str, Any], state: dict[str, str]) -> dict[str, str]:
                 pretty = plate["pretty"]
 
                 try:
-                    status = check_plate_with_retry(context, raw_plate, retries=3)
+                    result = check_plate_with_retry(context, raw_plate, retries=3)
+                    status = result["status"]
+                    matches = result.get("matches", [])
+
                     updated_state[compact] = status
                     save_state(STATE_FILE, updated_state)
 
@@ -418,6 +532,7 @@ def run_cycle(config: dict[str, Any], state: dict[str, str]) -> dict[str, str]:
                             "compact_plate": compact,
                             "pretty_plate": pretty,
                             "status": status,
+                            "matches": matches,
                         }
                     )
 
@@ -429,6 +544,7 @@ def run_cycle(config: dict[str, Any], state: dict[str, str]) -> dict[str, str]:
                             "compact_plate": compact,
                             "pretty_plate": pretty,
                             "status": "unknown",
+                            "matches": [],
                         }
                     )
 
