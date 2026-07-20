@@ -215,3 +215,35 @@
 2026-07-20 12:19:02,326 | INFO | Gefundene Platzhalter-Treffer für PE ? 87: PE B 87, PE Y 87
 2026-07-20 12:19:02,326 | INFO | Erkanntes Ergebnis für PE ? 87: available
 2026-07-20 12:19:06,593 | INFO | Zusammenfassende Telegram-Benachrichtigung gesendet.
+2026-07-20 16:20:10,740 | INFO | Logging initialisiert. Logdatei: /home/runner/work/Kennzeichenchecker/Kennzeichenchecker/logs.txt
+2026-07-20 16:20:10,740 | INFO | Kennzeichenwächter gestartet im GitHub-Actions-Modus.
+2026-07-20 16:20:11,166 | INFO | Prüfe Kennzeichen: PE G 87
+2026-07-20 16:20:23,061 | INFO | Erkanntes Ergebnis für PE G 87: unavailable
+2026-07-20 16:20:27,914 | INFO | Prüfe Kennzeichen: PE S 58
+2026-07-20 16:20:37,058 | INFO | Erkanntes Ergebnis für PE S 58: unavailable
+2026-07-20 16:20:40,574 | INFO | Prüfe Kennzeichen: PE XM 2
+2026-07-20 16:20:49,917 | INFO | Erkanntes Ergebnis für PE XM 2: unavailable
+2026-07-20 16:20:53,227 | INFO | Prüfe Kennzeichen: PE IM 2
+2026-07-20 16:21:03,112 | INFO | Erkanntes Ergebnis für PE IM 2: unavailable
+2026-07-20 16:21:07,980 | INFO | Prüfe Kennzeichen: PE MR 2
+2026-07-20 16:21:17,426 | INFO | Erkanntes Ergebnis für PE MR 2: unavailable
+2026-07-20 16:21:21,893 | INFO | Prüfe Kennzeichen: PE MI 2
+2026-07-20 16:21:32,382 | INFO | Erkanntes Ergebnis für PE MI 2: unavailable
+2026-07-20 16:21:36,042 | INFO | Prüfe Kennzeichen: PE MY 2
+2026-07-20 16:21:44,194 | INFO | Erkanntes Ergebnis für PE MY 2: unavailable
+2026-07-20 16:21:48,490 | INFO | Prüfe Kennzeichen: PE BM 2
+2026-07-20 16:21:57,527 | INFO | Erkanntes Ergebnis für PE BM 2: unavailable
+2026-07-20 16:22:01,244 | INFO | Prüfe Kennzeichen: PE GM 2
+2026-07-20 16:22:11,541 | INFO | Erkanntes Ergebnis für PE GM 2: unavailable
+2026-07-20 16:22:14,058 | INFO | Prüfe Kennzeichen: PE M 87
+2026-07-20 16:22:24,652 | INFO | Erkanntes Ergebnis für PE M 87: unavailable
+2026-07-20 16:22:27,654 | INFO | Prüfe Kennzeichen: PE XG 87
+2026-07-20 16:22:36,488 | INFO | Erkanntes Ergebnis für PE XG 87: unavailable
+2026-07-20 16:22:39,542 | INFO | Prüfe Kennzeichen: PE ?M 2
+2026-07-20 16:22:48,690 | INFO | Erkanntes Ergebnis für PE ?M 2: unavailable
+2026-07-20 16:22:52,973 | INFO | Prüfe Kennzeichen: PE M? 2
+2026-07-20 16:23:03,533 | INFO | Erkanntes Ergebnis für PE M? 2: unavailable
+2026-07-20 16:23:06,456 | INFO | Prüfe Kennzeichen: PE ? 87
+2026-07-20 16:23:14,992 | INFO | Gefundene Platzhalter-Treffer für PE ? 87: PE B 87, PE Y 87
+2026-07-20 16:23:14,992 | INFO | Erkanntes Ergebnis für PE ? 87: available
+2026-07-20 16:23:19,772 | INFO | Zusammenfassende Telegram-Benachrichtigung gesendet.
