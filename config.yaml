@@ -3,22 +3,18 @@ check_interval_minutes: 300
 license_plates:
   - "PEG87"
   - "PES58"
-  - "PEXM2"
-  - "PEIM2"
-  - "PEMR2"
-  - "PEMI2"
-  - "PEMY2"
-  - "PEBM2"
-  - "PEGM2"
-  - "PEM87"
-  - "PEXG87"
+  # - "PEXM2"
+  # - "PEIM2"
+  # - "PEMR2"
+  # - "PEMI2"
+  # - "PEMY2"
+  # - "PEBM2"
+  # - "PEGM2"
+  # - "PEM87"
+  # - "PEXG87"
   - "PE?M2"
   - "PEM?2"
   - "PE?87"
-
-
-
-
 
 telegram:
   bot_token: ""
