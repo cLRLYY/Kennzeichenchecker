@@ -120,3 +120,34 @@
 2026-07-20 02:03:53,208 | INFO | Prüfe Kennzeichen: PE ? 87
 2026-07-20 02:04:02,362 | INFO | Erkanntes Ergebnis für PE ? 87: available
 2026-07-20 02:04:06,454 | INFO | Zusammenfassende Telegram-Benachrichtigung gesendet.
+2026-07-20 07:51:58,213 | INFO | Logging initialisiert. Logdatei: /home/runner/work/Kennzeichenchecker/Kennzeichenchecker/logs.txt
+2026-07-20 07:51:58,214 | INFO | Kennzeichenwächter gestartet im GitHub-Actions-Modus.
+2026-07-20 07:51:58,635 | INFO | Prüfe Kennzeichen: PE G 87
+2026-07-20 07:52:09,412 | INFO | Erkanntes Ergebnis für PE G 87: unavailable
+2026-07-20 07:52:14,146 | INFO | Prüfe Kennzeichen: PE S 58
+2026-07-20 07:52:23,392 | INFO | Erkanntes Ergebnis für PE S 58: unavailable
+2026-07-20 07:52:26,685 | INFO | Prüfe Kennzeichen: PE XM 2
+2026-07-20 07:52:35,654 | INFO | Erkanntes Ergebnis für PE XM 2: unavailable
+2026-07-20 07:52:39,817 | INFO | Prüfe Kennzeichen: PE IM 2
+2026-07-20 07:52:48,103 | INFO | Erkanntes Ergebnis für PE IM 2: unavailable
+2026-07-20 07:52:51,046 | INFO | Prüfe Kennzeichen: PE MR 2
+2026-07-20 07:52:59,638 | INFO | Erkanntes Ergebnis für PE MR 2: unavailable
+2026-07-20 07:53:01,726 | INFO | Prüfe Kennzeichen: PE MI 2
+2026-07-20 07:53:10,853 | INFO | Erkanntes Ergebnis für PE MI 2: unavailable
+2026-07-20 07:53:13,832 | INFO | Prüfe Kennzeichen: PE MY 2
+2026-07-20 07:53:24,081 | INFO | Erkanntes Ergebnis für PE MY 2: unavailable
+2026-07-20 07:53:29,035 | INFO | Prüfe Kennzeichen: PE BM 2
+2026-07-20 07:53:38,112 | INFO | Erkanntes Ergebnis für PE BM 2: unavailable
+2026-07-20 07:53:43,108 | INFO | Prüfe Kennzeichen: PE GM 2
+2026-07-20 07:53:52,527 | INFO | Erkanntes Ergebnis für PE GM 2: unavailable
+2026-07-20 07:53:56,938 | INFO | Prüfe Kennzeichen: PE M 87
+2026-07-20 07:54:09,061 | INFO | Erkanntes Ergebnis für PE M 87: unavailable
+2026-07-20 07:54:12,819 | INFO | Prüfe Kennzeichen: PE XG 87
+2026-07-20 07:54:22,081 | INFO | Erkanntes Ergebnis für PE XG 87: unavailable
+2026-07-20 07:54:26,460 | INFO | Prüfe Kennzeichen: PE ?M 2
+2026-07-20 07:54:35,814 | INFO | Erkanntes Ergebnis für PE ?M 2: unavailable
+2026-07-20 07:54:40,529 | INFO | Prüfe Kennzeichen: PE M? 2
+2026-07-20 07:54:51,257 | INFO | Erkanntes Ergebnis für PE M? 2: unavailable
+2026-07-20 07:54:56,174 | INFO | Prüfe Kennzeichen: PE ? 87
+2026-07-20 07:55:05,273 | INFO | Erkanntes Ergebnis für PE ? 87: available
+2026-07-20 07:55:08,525 | INFO | Zusammenfassende Telegram-Benachrichtigung gesendet.
