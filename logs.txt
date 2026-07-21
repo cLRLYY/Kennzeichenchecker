@@ -335,3 +335,17 @@
 2026-07-21 16:17:26,795 | INFO | Gefundene Platzhalter-Treffer für PE ? 87: PE B 87, PE Y 87
 2026-07-21 16:17:26,795 | INFO | Erkanntes Ergebnis für PE ? 87: available
 2026-07-21 16:17:30,144 | INFO | Zusammenfassende Telegram-Benachrichtigung gesendet.
+2026-07-21 20:58:16,536 | INFO | Logging initialisiert. Logdatei: /home/runner/work/Kennzeichenchecker/Kennzeichenchecker/logs.txt
+2026-07-21 20:58:16,536 | INFO | Kennzeichenwächter gestartet im GitHub-Actions-Modus.
+2026-07-21 20:58:16,902 | INFO | Prüfe Kennzeichen: PE G 87
+2026-07-21 20:58:26,716 | INFO | Erkanntes Ergebnis für PE G 87: unavailable
+2026-07-21 20:58:31,706 | INFO | Prüfe Kennzeichen: PE S 58
+2026-07-21 20:58:40,598 | INFO | Erkanntes Ergebnis für PE S 58: unavailable
+2026-07-21 20:58:43,781 | INFO | Prüfe Kennzeichen: PE ?M 2
+2026-07-21 20:58:54,393 | INFO | Erkanntes Ergebnis für PE ?M 2: unavailable
+2026-07-21 20:58:58,286 | INFO | Prüfe Kennzeichen: PE M? 2
+2026-07-21 20:59:08,996 | INFO | Erkanntes Ergebnis für PE M? 2: unavailable
+2026-07-21 20:59:13,565 | INFO | Prüfe Kennzeichen: PE ? 87
+2026-07-21 20:59:23,296 | INFO | Gefundene Platzhalter-Treffer für PE ? 87: PE Y 87
+2026-07-21 20:59:23,296 | INFO | Erkanntes Ergebnis für PE ? 87: available
+2026-07-21 20:59:26,117 | INFO | Zusammenfassende Telegram-Benachrichtigung gesendet.
