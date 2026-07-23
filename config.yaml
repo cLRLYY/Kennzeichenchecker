@@ -15,6 +15,8 @@ license_plates:
   - "PE?M2"
   - "PEM?2"
   - "PE?87"
+  - "PEJM?"
+  - "PEJM31"
 
 telegram:
   bot_token: ""
