@@ -1542,3 +1542,21 @@
 2026-08-03 20:56:22,219 | INFO | Prüfe Kennzeichen: PE JM 31
 2026-08-03 20:56:32,835 | INFO | Erkanntes Ergebnis für PE JM 31: unavailable
 2026-08-03 20:56:36,285 | INFO | Zusammenfassende Telegram-Benachrichtigung gesendet.
+2026-08-04 01:27:15,698 | INFO | Logging initialisiert. Logdatei: /home/runner/work/Kennzeichenchecker/Kennzeichenchecker/logs.txt
+2026-08-04 01:27:15,698 | INFO | Kennzeichenwächter gestartet im GitHub-Actions-Modus.
+2026-08-04 01:27:16,052 | INFO | Prüfe Kennzeichen: PE G 87
+2026-08-04 01:27:26,673 | INFO | Erkanntes Ergebnis für PE G 87: unavailable
+2026-08-04 01:27:31,494 | INFO | Prüfe Kennzeichen: PE S 58
+2026-08-04 01:27:41,900 | INFO | Erkanntes Ergebnis für PE S 58: unavailable
+2026-08-04 01:27:44,066 | INFO | Prüfe Kennzeichen: PE ?M 2
+2026-08-04 01:27:53,827 | INFO | Erkanntes Ergebnis für PE ?M 2: unavailable
+2026-08-04 01:27:56,590 | INFO | Prüfe Kennzeichen: PE M? 2
+2026-08-04 01:28:06,238 | INFO | Erkanntes Ergebnis für PE M? 2: unavailable
+2026-08-04 01:28:08,453 | INFO | Prüfe Kennzeichen: PE ? 87
+2026-08-04 01:28:17,431 | INFO | Gefundene Platzhalter-Treffer für PE ? 87: PE N 87, PE Y 87
+2026-08-04 01:28:17,431 | INFO | Erkanntes Ergebnis für PE ? 87: available
+2026-08-04 01:28:19,759 | INFO | Prüfe Kennzeichen: PE JM ?
+2026-08-04 01:28:29,031 | INFO | Erkanntes Ergebnis für PE JM ?: unavailable
+2026-08-04 01:28:32,843 | INFO | Prüfe Kennzeichen: PE JM 31
+2026-08-04 01:28:42,413 | INFO | Erkanntes Ergebnis für PE JM 31: unavailable
+2026-08-04 01:28:46,056 | INFO | Zusammenfassende Telegram-Benachrichtigung gesendet.
