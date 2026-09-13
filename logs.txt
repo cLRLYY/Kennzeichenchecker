@@ -4901,3 +4901,27 @@
 2026-09-12 21:50:14,941 | INFO | Prüfe Kennzeichen: PE JM 31
 2026-09-12 21:50:23,800 | INFO | Erkanntes Ergebnis für PE JM 31: unavailable
 2026-09-12 21:50:28,578 | INFO | Zusammenfassende Telegram-Benachrichtigung gesendet.
+2026-09-13 02:03:07,583 | INFO | Logging initialisiert. Logdatei: /home/runner/work/Kennzeichenchecker/Kennzeichenchecker/logs.txt
+2026-09-13 02:03:07,583 | INFO | Kennzeichenwächter gestartet im GitHub-Actions-Modus.
+2026-09-13 02:03:07,926 | INFO | Prüfe Kennzeichen: PE G 87
+2026-09-13 02:03:49,609 | WARNING | Status für PE G 87 konnte nicht eindeutig erkannt werden. HTML-Auszug im Log.
+2026-09-13 02:03:49,609 | INFO | Erkanntes Ergebnis für PE G 87: unknown
+2026-09-13 02:03:53,041 | INFO | Prüfe Kennzeichen: PE S 58
+2026-09-13 02:04:32,269 | WARNING | Status für PE S 58 konnte nicht eindeutig erkannt werden. HTML-Auszug im Log.
+2026-09-13 02:04:32,269 | INFO | Erkanntes Ergebnis für PE S 58: unknown
+2026-09-13 02:04:35,638 | INFO | Prüfe Kennzeichen: PE ?M 2
+2026-09-13 02:05:15,933 | WARNING | Status für PE ?M 2 konnte nicht eindeutig erkannt werden. HTML-Auszug im Log.
+2026-09-13 02:05:15,933 | INFO | Erkanntes Ergebnis für PE ?M 2: unknown
+2026-09-13 02:05:18,494 | INFO | Prüfe Kennzeichen: PE M? 2
+2026-09-13 02:05:57,041 | WARNING | Status für PE M? 2 konnte nicht eindeutig erkannt werden. HTML-Auszug im Log.
+2026-09-13 02:05:57,041 | INFO | Erkanntes Ergebnis für PE M? 2: unknown
+2026-09-13 02:05:59,251 | INFO | Prüfe Kennzeichen: PE ? 87
+2026-09-13 02:06:39,262 | WARNING | Status für PE ? 87 konnte nicht eindeutig erkannt werden. HTML-Auszug im Log.
+2026-09-13 02:06:39,262 | INFO | Erkanntes Ergebnis für PE ? 87: unknown
+2026-09-13 02:06:41,457 | INFO | Prüfe Kennzeichen: PE JM ?
+2026-09-13 02:07:21,390 | WARNING | Status für PE JM ? konnte nicht eindeutig erkannt werden. HTML-Auszug im Log.
+2026-09-13 02:07:21,390 | INFO | Erkanntes Ergebnis für PE JM ?: unknown
+2026-09-13 02:07:24,387 | INFO | Prüfe Kennzeichen: PE JM 31
+2026-09-13 02:08:04,257 | WARNING | Status für PE JM 31 konnte nicht eindeutig erkannt werden. HTML-Auszug im Log.
+2026-09-13 02:08:04,257 | INFO | Erkanntes Ergebnis für PE JM 31: unknown
+2026-09-13 02:08:09,002 | INFO | Zusammenfassende Telegram-Benachrichtigung gesendet.
